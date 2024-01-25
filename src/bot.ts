@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, Guild } from "discord.js";
 import { deployCommands } from "./deploy-commands";
 import { commands } from "./commands/commands";
 import { config } from "./config";
@@ -8,10 +8,12 @@ const client = new Client({
 });
 
 client.once("ready", () => {
-    (async () => {
-      await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID});
-      console.log("Discord bot is ready! 🤖");
-    })();
+
+    // (async () => {
+    //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID});
+    // })()
+
+    console.log("Discord bot is ready! 🤖");
 });
 
 client.on("guildCreate", async (guild) => {
