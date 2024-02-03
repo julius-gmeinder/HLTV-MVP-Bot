@@ -1,7 +1,7 @@
-import * as ping from "./test/ping";
 import * as setup from "./setup/setup";
+import * as setuptest from "./setup/setuptest";
 
 export const commands = {
-  ping,
   setup,
+  setuptest
 };

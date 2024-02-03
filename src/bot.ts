@@ -10,7 +10,8 @@ const client = new Client({
 client.once("ready", () => {
 
     // (async () => {
-    //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID});
+    //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID_1});
+    //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID_2});
     // })()
 
     console.log("Discord bot is ready! 🤖");
