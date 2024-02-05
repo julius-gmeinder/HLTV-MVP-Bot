@@ -8,27 +8,27 @@ const client = new Client({
   intents: ["Guilds", "GuildMessages", "DirectMessages"],
 });
 
-client.once("ready", () => {
+client.once("ready", async () => {
 
-    // Refresh commands in 2 test guild
+    // Refresh commands in 2 test guilds
     //
     // (async () => {
     //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID_1});
     //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID_2});
     // })()
 
-    RefreshGuildsInDB(client.guilds.cache.map(x => x.id));
+    await RefreshGuildsInDB(client.guilds.cache.map(x => x.id));
 
     console.log("Discord bot is ready! 🤖");
 });
 
-client.on("guildCreate", (guild) => {
-  AddGuildToDB(guild.id);
-  (async () => await deployCommands({ guildId: guild.id }))();
+client.on("guildCreate", async (guild) => {
+  await AddGuildToDB(guild.id);
+  await deployCommands({ guildId: guild.id });
 });
 
-client.on("guildDelete", (guild) => {
-  DeleteGuildFromDB(guild.id);
+client.on("guildDelete", async (guild) => {
+  await DeleteGuildFromDB(guild.id);
 });
 
 client.on("interactionCreate", async (interaction) => {
