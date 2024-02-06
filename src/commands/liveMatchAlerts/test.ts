@@ -1,12 +1,12 @@
 import { CommandInteraction, SlashCommandBuilder, TextChannel } from "discord.js";
-import { GetChannels, SetupLiveMatchAlert } from "../../services/API/liveMatchAlerts";
+import alerts from "../../services/API/liveMatchAlerts";
 
 export const data = new SlashCommandBuilder()
   .setName("test")
   .setDescription("Sends a message to all currently setup Live-Match-Alert Channels");
 
 export async function execute(interaction: CommandInteraction) {
-    const res = await GetChannels();
+    const res = await alerts.GetChannels();
 
     if(res.status != 200)
         return interaction.reply(`There has been an error running the command`);

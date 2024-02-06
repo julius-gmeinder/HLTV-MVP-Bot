@@ -3,7 +3,13 @@ import fetch, { Response } from 'node-fetch';
 import https from 'https';
 import { LiveMatchAlertSetup } from "../../models";
 
-export async function GetChannels() {
+export default {
+    GetChannels,
+    Setup,
+    Remove,
+}
+
+async function GetChannels(): Promise<Response> {
     const res = await fetch(config.API_BASE + `bot/LiveMatchAlerts`, {
         agent: new https.Agent({
             rejectUnauthorized: false,
@@ -12,7 +18,7 @@ export async function GetChannels() {
     return res;   
 }
 
-export async function SetupLiveMatchAlert({guildId, liveMatchAlertChannelId}: LiveMatchAlertSetup): Promise<Response> {
+async function Setup(setup: LiveMatchAlertSetup): Promise<Response> {
     const res = await fetch(config.API_BASE + `bot/LiveMatchAlerts/setup`, {
         method: 'PATCH',
         headers: {
@@ -20,8 +26,8 @@ export async function SetupLiveMatchAlert({guildId, liveMatchAlertChannelId}: Li
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            guildId: guildId,
-            liveMatchAlertChannelId: liveMatchAlertChannelId
+            guildId: setup.guildId,
+            liveMatchAlertChannelId: setup.liveMatchAlertChannelId
         }),
         agent: new https.Agent({
             rejectUnauthorized: false,
@@ -30,7 +36,7 @@ export async function SetupLiveMatchAlert({guildId, liveMatchAlertChannelId}: Li
     return res;
 }
 
-export async function RemoveLiveMatchAlert(guildId: string): Promise<Response> {
+async function Remove(guildId: string): Promise<Response> {
     const res = await fetch(config.API_BASE + `bot/LiveMatchAlerts/remove?guildId=${guildId}`, {
         method: 'PATCH',
         headers: {

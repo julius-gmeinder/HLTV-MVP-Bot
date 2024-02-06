@@ -2,7 +2,13 @@ import { config } from "../../config";
 import fetch from 'node-fetch';
 import https from 'https';
 
-export async function AddGuildToDB(guildId: string): Promise<void> {
+export default {
+  Add,
+  Delete,
+  Refresh
+}
+
+async function Add(guildId: string): Promise<void> {
   await fetch(config.API_BASE + `bot/Guilds?guildId=${guildId}`, {
     method: 'POST',
     headers: {
@@ -15,7 +21,7 @@ export async function AddGuildToDB(guildId: string): Promise<void> {
   });
 }
 
-export async function DeleteGuildFromDB(guildId: string): Promise<void> {
+async function Delete(guildId: string): Promise<void> {
   await fetch(config.API_BASE + `bot/Guilds?guildId=${guildId}`, {
     method: 'DELETE',
     headers: {
@@ -28,7 +34,7 @@ export async function DeleteGuildFromDB(guildId: string): Promise<void> {
   });
 }
 
-export async function RefreshGuildsInDB(guildIds: Array<string>): Promise<void> {
+export async function Refresh(guildIds: Array<string>): Promise<void> {
   await fetch(config.API_BASE + `bot/Guilds/refresh`, {
     method: 'POST',
     headers: {

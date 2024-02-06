@@ -1,8 +1,8 @@
-import { Client, Guild } from "discord.js";
+import { Client } from "discord.js";
 import { deployCommands } from "./deploy-commands";
 import { commands } from "./commands/commands";
 import { config } from "./config";
-import { AddGuildToDB, DeleteGuildFromDB, RefreshGuildsInDB } from "./services/API/guilds";
+import guilds from "./services/API/guilds";
 
 const client = new Client({
   intents: ["Guilds", "GuildMessages", "DirectMessages"],
@@ -17,18 +17,18 @@ client.once("ready", async () => {
     //   await deployCommands({guildId: config.DISCORD_DEV_GUILD_ID_2});
     // })()
 
-    await RefreshGuildsInDB(client.guilds.cache.map(x => x.id));
+    await guilds.Refresh(client.guilds.cache.map(x => x.id));
 
     console.log("Discord bot is ready! 🤖");
 });
 
 client.on("guildCreate", async (guild) => {
-  await AddGuildToDB(guild.id);
+  await guilds.Add(guild.id);
   await deployCommands({ guildId: guild.id });
 });
 
 client.on("guildDelete", async (guild) => {
-  await DeleteGuildFromDB(guild.id);
+  await guilds.Delete(guild.id);
 });
 
 client.on("interactionCreate", async (interaction) => {
